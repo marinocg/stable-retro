@@ -36,10 +36,14 @@ jobs:
             if (Test-Path $f) {
               $content = Get-Content $f -Raw
               if ($content -match "Unix Makefiles") {
-                Write-Host "Patching $f: Unix Makefiles -> Ninja"
+                Write-Host "Patching ${f}: Unix Makefiles -> Ninja"
                 $content = $content -replace "Unix Makefiles", "Ninja"
                 Set-Content -Path $f -Value $content -NoNewline
+              } else {
+                Write-Host "No Unix Makefiles found in ${f}"
               }
+            } else {
+              Write-Host "File not found: ${f}"
             }
           }
 
